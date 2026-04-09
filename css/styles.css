@@ -131,8 +131,7 @@ nav {
   position: absolute; inset: 0;
   background:
     linear-gradient(135deg, rgba(26,22,18,0.96) 0%, rgba(44,37,32,0.88) 50%, rgba(26,22,18,0.75) 80%),
-    url(/images/backgraund.png) center/cover no-repeat;
-    /*url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1600&q=80') center/cover no-repeat;*/
+    url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1600&q=80') center/cover no-repeat;
 }
 
 .hero-ornament {
