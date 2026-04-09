@@ -40,6 +40,12 @@ function initNavScroll() {
   if (!nav) return;
 
   window.addEventListener('scroll', () => {
+    if (window.innerWidth <= 900) {
+      nav.style.height = '';
+      nav.style.borderBottomColor = 'rgba(184,150,110,0.2)';
+      return;
+    }
+
     if (window.scrollY > 60) {
       nav.style.height = '60px';
       nav.style.borderBottomColor = 'rgba(184,150,110,0.3)';
@@ -50,11 +56,45 @@ function initNavScroll() {
   }, { passive: true });
 }
 
+function initMobileNav() {
+  const nav = document.querySelector('nav');
+  const toggle = document.querySelector('.nav-toggle');
+  const links = document.getElementById('navLinks');
+  if (!nav || !toggle || !links) return;
+
+  const closeMenu = () => {
+    nav.classList.remove('nav-open');
+    toggle.setAttribute('aria-expanded', 'false');
+    document.body.classList.remove('menu-open');
+  };
+
+  toggle.addEventListener('click', () => {
+    const isOpen = nav.classList.toggle('nav-open');
+    toggle.setAttribute('aria-expanded', String(isOpen));
+    document.body.classList.toggle('menu-open', isOpen);
+  });
+
+  links.querySelectorAll('a').forEach((link) => {
+    link.addEventListener('click', closeMenu);
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeMenu();
+  });
+
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 900) closeMenu();
+  });
+}
+
 /* ─── SMOOTH SCROLL FOR NAV LINKS ─── */
 function initSmoothScroll() {
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
-      const target = document.querySelector(this.getAttribute('href'));
+      const href = this.getAttribute('href');
+      if (!href || href === '#') return;
+
+      const target = document.querySelector(href);
       if (target) {
         e.preventDefault();
         target.scrollIntoView({ behavior: 'smooth' });
@@ -210,6 +250,7 @@ function enviarVisitaPrevision() {
 /* ─── INIT ─── */
 document.addEventListener('DOMContentLoaded', () => {
   initNavScroll();
+  initMobileNav();
   initSmoothScroll();
   initModal();
 });
